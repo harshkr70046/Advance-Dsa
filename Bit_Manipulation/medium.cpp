@@ -82,10 +82,69 @@ int xor_in_range(int l,int r){
     int ans = xor_before_l ^ xor_upto_n(r);
     return ans;
 }
+
+// we have given the divend and divisor we have to devide it without using / sign
+int divide(int dividend,int divisor){
+    if(dividend==divisor) return 1;
+    bool sign = true;
+    if(dividend>=0 && divisor<0) sign = false;
+    else if(dividend<0 && divisor>=0) sign = false;
+    long n = abs(dividend);
+    long d = abs(divisor);
+    divisor = abs(divisor);
+    long quotient = 0;
+    while(n>=d){
+        int cnt = 0;
+        while(n>=(d<<(cnt+1))){
+            cnt++;
+        }
+        quotient+=1<<cnt;
+        n-=(d<<cnt);
+    }
+    if(quotient==(1<<31) && sign){
+        return INT_MAX;
+    }
+    if(quotient==(1<<3) && !sign){
+        return INT_MIN;
+    }
+    return sign?quotient:-quotient;
+}
+// this function is not working know the reason connect with harsh.😓
+int divide_the_two(int dividend, int divisor) {
+    if (dividend == divisor) return 1;
+    
+    bool sign = true;
+    if (dividend >= 0 && divisor < 0) sign = false;
+    else if (dividend < 0 && divisor > 0) sign = false;
+    
+    int n = abs(dividend);
+    int d = abs(divisor);
+    
+    divisor = abs(divisor);
+    
+    int q = 0;
+    while (n >= d) {
+        int cnt = 0;
+        while (n >= (d * pow(2, cnt))) {
+            cnt++;
+        }
+        q += pow(2, cnt);
+        n -= pow(2, cnt) * d;
+    }
+    
+    if (q == pow(2, 31) && sign) return INT_MAX;
+    if (q == pow(2, 31) && !sign) return INT_MIN;
+    
+    return sign ? q : -q;
+}
 int main(){
     int n;
     cout<<"\nenter the size of the array = ";
     cin>>n;
+    int m;
+    cout<<"\nenter the second number = ";
+    cin>>m;
+    cout<<"\nquotient = "<<divide(n,m);
     // vector<int>arr;
     // input_array(arr,n);
     // print_array(arr,n);
@@ -94,5 +153,6 @@ int main(){
     // pair<int,int>p = _2_unique(arr,n);
     // cout<<"\nfirst unique = "<<p.first;
     // cout<<"\nsecond unique = "<<p.second;
-    cout<<"\nxor from one to n = "<<xor_in_range(n,7);
+    // cout<<"\nxor from one to n = "<<xor_in_range(n,7);
+
 }
