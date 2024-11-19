@@ -40,13 +40,72 @@ void use_queue(vector<int>&arr,int n){
     cout<<"\ntop element = "<<q.back();
     cout<<"\nsize of the queue = "<<q.size();
 }
+
+class impliment_stack{
+    private:
+    int top;
+    int st[10];
+    const int capacity = 10;
+public:
+    impliment_stack() : top(-1){}
+
+    void push(int x){
+        if(top>=capacity-1){
+            cout<<"\nstack overflow..";
+            return;
+        }
+        top++;
+        st[top] = x;
+    }
+    int topElement(){
+        if(top==-1){
+            cout<<"\nstack is empty";
+            return -1;
+        }
+        return st[top];
+    }
+    void pop(){
+        if(top==-1){
+            cout<<"\nstack is empty..";
+            return;
+        }
+        top--;
+    }
+    int size(){
+        return top+1;
+    }
+    bool isEmpty(){
+        return top==-1;
+    }
+
+};
 int main(){
-    int n;
-    cout<<"\nenter the size of the array = ";
-    cin>>n;
-    vector<int>arr;
-    input_array(arr,n);
-    print_array(arr,n);
-    use_stack(arr,n);
-    use_queue(arr,n);
+    // int n;
+    // cout<<"\nenter the size of the array = ";
+    // cin>>n;
+    // vector<int>arr;
+    // input_array(arr,n);
+    // print_array(arr,n);
+    // use_stack(arr,n);
+    // use_queue(arr,n);
+    impliment_stack harsh;
+    harsh.push(1);
+    harsh.push(2);
+    harsh.push(3);
+    harsh.push(4);
+    cout<<"\ntop element = "<<harsh.topElement();
+    cout<<"\nstack size = "<<harsh.size();
+
+    harsh.pop();
+    cout<<"\nafter pop top element = "<<harsh.topElement();
+    cout<<"\nafter pop stack size = "<<harsh.size();
+
+    cout<<"\nEmpty or not = "<<harsh.isEmpty();
+    harsh.pop();
+    harsh.pop();
+    harsh.pop();
+    cout<<"\nafter pop = "<<harsh.isEmpty();
+
+    harsh.pop();
+
 }
