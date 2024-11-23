@@ -155,6 +155,50 @@ string prefix_infix(string s){
     }
     return st.top();
 }
+
+//! postfix to prefix
+string postfix_to_prefix(string s){
+    stack<string>st;
+    for(int i=0;i<s.size();i++){
+        if((s[i]>='A' && s[i]<='Z') || (s[i]>='a' && s[i]<='z')
+        || (s[i]>='0' && s[i]<='9')){
+            string temp = "";
+            temp+=s[i];
+            st.push(temp);
+        }
+        else{
+            string top1 = st.top();
+            st.pop();
+            string top2 = st.top();
+            st.pop();
+            string final = s[i]+top2+top1;
+            st.push(final);
+        }
+    }
+    return st.top();
+}
+
+//!prefix to postfix
+string prefix_to_postfix(string s){
+    stack<string>st;
+    for(int i=s.size()-1;i>=0;i--){
+        if((s[i]>='A' && s[i]<='Z') || (s[i]>='a' && s[i]<='z')
+        || (s[i]>='0' && s[i]<='9')){
+            string temp = "";
+            temp+=s[i];
+            st.push(temp);
+        }
+        else{
+            string top1 = st.top();
+            st.pop();
+            string top2 = st.top();
+            st.pop();
+            string final = top1+top2+s[i];
+            st.push(final);
+        }
+    }
+    return st.top();
+}
 int main(){
     string s;
     cout<<"\nenter the string = ";
@@ -172,8 +216,14 @@ int main(){
     // cout<<"\n Infix to pre fix = "<<InfixToPrifix;
 
     // string PostfixToinfix = post_fix_to_infix(s);
-    // cout<<"\n Infix to pre fix = "<<PostfixToinfix;
+    // cout<<"\n post fix to infix = "<<PostfixToinfix;
 
-    string PrefixInfix = prefix_infix(s);
-    cout<<"\n Infix to pre fix = "<<PrefixInfix;
+    // string PrefixInfix = prefix_infix(s);
+    // cout<<"\n prefix to infix = "<<PrefixInfix;
+
+    // string PostfixPrefix = postfix_to_prefix(s);
+    // cout<<"\n postfix to prefix = "<<PostfixPrefix;
+
+    string PrefixPostfix = prefix_to_postfix(s);
+    cout<<"\n prefix to postfix = "<<PrefixPostfix;
 }
