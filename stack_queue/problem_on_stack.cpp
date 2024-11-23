@@ -133,6 +133,28 @@ string post_fix_to_infix(string s){
     }
     return st.top();
 }
+
+//! prefix to infix
+string prefix_infix(string s){
+    stack<string>st;
+    for(int i=s.size()-1;i>=0;i--){
+        if((s[i]>='A' && s[i]<='Z') || (s[i]>='a' && s[i]<='z')
+        || (s[i]>='0' && s[i]<='9')){
+            string temp = "";
+            temp+=s[i];
+            st.push(temp);
+        }
+        else{
+            string top1 = st.top();
+            st.pop();
+            string top2 = st.top();
+            st.pop();
+            string final = '('+top1+s[i]+top2+')';
+            st.push(final);
+        }
+    }
+    return st.top();
+}
 int main(){
     string s;
     cout<<"\nenter the string = ";
@@ -149,6 +171,9 @@ int main(){
     // string InfixToPrifix = infix_to_prifix(s);
     // cout<<"\n Infix to pre fix = "<<InfixToPrifix;
 
-    string PostfixToinfix = post_fix_to_infix(s);
-    cout<<"\n Infix to pre fix = "<<PostfixToinfix;
+    // string PostfixToinfix = post_fix_to_infix(s);
+    // cout<<"\n Infix to pre fix = "<<PostfixToinfix;
+
+    string PrefixInfix = prefix_infix(s);
+    cout<<"\n Infix to pre fix = "<<PrefixInfix;
 }
