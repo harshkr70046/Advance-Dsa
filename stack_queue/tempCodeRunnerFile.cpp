@@ -1,3 +1,2 @@
-int n;
-    // cout<<"\nenter the size of the array = ";
-    // cin>>n;
+string PostfixPrefix = postfix_to_prefix(s);
+    // cout<<"\n postfix to prefix = "<<PostfixPrefix;
