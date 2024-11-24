@@ -56,26 +56,92 @@ public:
         return count;
     }
 };
+
+//!optimal code without using any extra space only O(n) space
+class implimentStack{
+public:
+    stack<int>st;
+    int mini = INT_MAX;
+    int push_element(int val){
+        if(st.empty()){
+            mini = val;
+            st.push(val);
+        }
+        else{
+            if(val>mini) st.push(val);
+            else{
+                st.push(2*val-mini);
+                mini = val;
+            }
+        }
+    }
+    void pop_element(){
+        if(st.empty()){
+            cout<<"\nstack is empty.";
+            return;
+        }
+        int x = st.top();
+        st.pop();
+        if(x<mini){
+            mini =  2*mini-x;
+        }
+    }
+    int top_function(){
+        if(st.empty()){
+            cout<<"\nstack is empty.";
+            return -1;
+        }
+        int x = st.top();
+        if(mini<x) return x;
+        return mini;
+    }
+    int get_min(){
+        return mini;
+    }
+};
 int main(){
-    impliment_stack harsh;
-    harsh.push(12);
-    harsh.push(15);
-    harsh.push(10);
+    // impliment_stack harsh;
+    // harsh.push(12);
+    // harsh.push(15);
+    // harsh.push(10);
 
-    cout<<"\ntop element of the stack = "<<harsh.top_();
-    cout<<"\nsize of the stack = "<<harsh.size();
-    cout<<"\nminimum element of the stack = "<<harsh.getmin();
+    // cout<<"\ntop element of the stack = "<<harsh.top_();
+    // cout<<"\nsize of the stack = "<<harsh.size();
+    // cout<<"\nminimum element of the stack = "<<harsh.getmin();
 
-    harsh.pop();
-    harsh.pop();
-    cout<<"\ntop element of the stack = "<<harsh.top_();
-    cout<<"\nsize of the stack = "<<harsh.size();
-    cout<<"\nminimum element of the stack = "<<harsh.getmin();
+    // harsh.pop();
+    // harsh.pop();
+    // cout<<"\ntop element of the stack = "<<harsh.top_();
+    // cout<<"\nsize of the stack = "<<harsh.size();
+    // cout<<"\nminimum element of the stack = "<<harsh.getmin();
 
     
-    harsh.pop();
+    // harsh.pop();
 
-    cout<<"\ntop element of the stack = "<<harsh.top_();
-    cout<<"\nsize of the stack = "<<harsh.size();
-    cout<<"\nminimum element of the stack = "<<harsh.getmin();
+    // cout<<"\ntop element of the stack = "<<harsh.top_();
+    // cout<<"\nsize of the stack = "<<harsh.size();
+    // cout<<"\nminimum element of the stack = "<<harsh.getmin();
+
+    implimentStack harsh;
+    harsh.push_element(12);
+    harsh.push_element(15);
+    harsh.push_element(10);
+
+    cout<<"\ntop element of the stack = "<<harsh.top_function();
+    cout<<"\nsize of the stack = "<<harsh.st.size();
+    cout<<"\nminimum element of the stack = "<<harsh.get_min();
+
+    harsh.pop_element();
+    cout<<"\ntop element of the stack = "<<harsh.top_function();
+    cout<<"\nsize of the stack = "<<harsh.st.size();
+    cout<<"\nminimum element of the stack = "<<harsh.get_min();
+    harsh.pop_element();
+    
+    cout<<"\ntop element of the stack = "<<harsh.top_function();
+    cout<<"\nsize of the stack = "<<harsh.st.size();
+    cout<<"\nminimum element of the stack = "<<harsh.get_min();
+
+    harsh.pop_element();
+    harsh.top_function();
+    harsh.get_min();
 }
