@@ -140,6 +140,23 @@ vector<int> next_greater_element(vector<int>&arr,int n){
     }
     return v;
 }
+
+//! monotonic stack for circular checking for next greater element
+vector<int> next_greater_element_in_circular_array(vector<int>&arr,int n){
+    vector<int>v(n);
+    stack<int>st;
+    for(int i=2*n-1;i>=0;i--){
+        while(!st.empty() && st.top()<=arr[i%n]){
+            st.pop();
+        }
+        if(i<n){
+            v[i] = (st.empty())?-1:st.top();
+        }
+        st.push(arr[i%n]);
+    }
+    return v;
+}
+
 int main(){
     // impliment_stack harsh;
     // harsh.push(12);
@@ -197,7 +214,15 @@ int main(){
     // cout<<endl;
     // print_array(v,n);
 
-    vector<int>v = next_greater_element(arr,n);
+    // vector<int>v = next_greater_element(arr,n);
+    // cout<<endl;
+    // print_array(v,n);
+
+    // vector<int>v = next_greater_element_in_circular_array(arr,n);
+    // cout<<endl;
+    // print_array(v,n);
+
+    vector<int>v = next_greater_element_in_circular_array(arr,n);
     cout<<endl;
     print_array(v,n);
 }
