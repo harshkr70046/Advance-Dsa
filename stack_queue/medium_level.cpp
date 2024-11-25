@@ -99,6 +99,47 @@ public:
         return mini;
     }
 };
+
+//! monotonic stack (Next Greater Element)
+//* to make the monotonic stack we have to first know how we can solve this question using array 
+//? code if it is in array type question
+void input_array(vector<int>&arr,int n){
+    for(int i=0;i<n;i++){
+        int num;
+        cout<<"\nenter the element of the array = ";
+        cin>>num;
+        arr.push_back(num);
+    }
+}
+void print_array(vector<int>&arr,int n){
+    for(int i=0;i<n;i++){
+        cout<<arr[i]<<"     ";
+    }
+}
+vector<int> NextGreatrElement(vector<int>&arr,int n){
+    vector<int>v(n,-1);
+    int maxi = arr[n-1];
+    for(int i=n-2;i>=0;i--){
+        if(arr[i]<maxi) v[i] = maxi;
+        maxi = max(maxi,arr[i]);
+    }
+    return v;
+}
+
+//! use monotonic to stack to solve this problem
+vector<int> next_greater_element(vector<int>&arr,int n){
+    vector<int>v(n);
+    stack<int>st;
+    for(int i=n-1;i>=0;i--){
+        while(!st.empty() && st.top()<=arr[i]){
+            st.pop();
+        }
+        if(st.empty()) v[i] = -1;
+        else v[i] = st.top();
+        st.push(arr[i]);
+    }
+    return v;
+}
 int main(){
     // impliment_stack harsh;
     // harsh.push(12);
@@ -122,26 +163,41 @@ int main(){
     // cout<<"\nsize of the stack = "<<harsh.size();
     // cout<<"\nminimum element of the stack = "<<harsh.getmin();
 
-    implimentStack harsh;
-    harsh.push_element(12);
-    harsh.push_element(15);
-    harsh.push_element(10);
+    // implimentStack harsh;
+    // harsh.push_element(12);
+    // harsh.push_element(15);
+    // harsh.push_element(10);
 
-    cout<<"\ntop element of the stack = "<<harsh.top_function();
-    cout<<"\nsize of the stack = "<<harsh.st.size();
-    cout<<"\nminimum element of the stack = "<<harsh.get_min();
+    // cout<<"\ntop element of the stack = "<<harsh.top_function();
+    // cout<<"\nsize of the stack = "<<harsh.st.size();
+    // cout<<"\nminimum element of the stack = "<<harsh.get_min();
 
-    harsh.pop_element();
-    cout<<"\ntop element of the stack = "<<harsh.top_function();
-    cout<<"\nsize of the stack = "<<harsh.st.size();
-    cout<<"\nminimum element of the stack = "<<harsh.get_min();
-    harsh.pop_element();
+    // harsh.pop_element();
+    // cout<<"\ntop element of the stack = "<<harsh.top_function();
+    // cout<<"\nsize of the stack = "<<harsh.st.size();
+    // cout<<"\nminimum element of the stack = "<<harsh.get_min();
+    // harsh.pop_element();
     
-    cout<<"\ntop element of the stack = "<<harsh.top_function();
-    cout<<"\nsize of the stack = "<<harsh.st.size();
-    cout<<"\nminimum element of the stack = "<<harsh.get_min();
+    // cout<<"\ntop element of the stack = "<<harsh.top_function();
+    // cout<<"\nsize of the stack = "<<harsh.st.size();
+    // cout<<"\nminimum element of the stack = "<<harsh.get_min();
 
-    harsh.pop_element();
-    harsh.top_function();
-    harsh.get_min();
+    // harsh.pop_element();
+    // harsh.top_function();
+    // harsh.get_min();
+
+    int n;
+    cout<<"\nenter the size of the array = ";
+    cin>>n;
+    vector<int>arr;
+    input_array(arr,n);
+    cout<<endl;
+    print_array(arr,n);
+    // vector<int>v = NextGreatrElement(arr,n);
+    // cout<<endl;
+    // print_array(v,n);
+
+    vector<int>v = next_greater_element(arr,n);
+    cout<<endl;
+    print_array(v,n);
 }
