@@ -173,7 +173,53 @@ vector<int> pSe(vector<int>&arr,int n){
     return pse;
 }
 //! next greater element;
-vector<int> nGe(vector<int>&arr,int n)
+vector<int> nGe(vector<int>&arr,int n){
+    vector<int>nge(n);
+    stack<int>st;
+    for(int i=n-1;i>=0;i--){
+        while(!st.empty() && arr[st.top()]<=arr[i]){
+            st.pop();
+        }
+        nge[i] = (st.empty())?n:st.top();
+        st.push(i);
+    }
+    return nge;
+}
+//! previous greater element
+vector<int> pGe(vector<int>&arr,int n){
+    vector<int>pge(n);
+    stack<int>st;
+    for(int i=0;i<n;i++){
+        while(!st.empty() && arr[st.top()]<arr[i]){
+            st.pop();
+        }
+        pge[i] = (st.empty())?-1:st.top();
+        st.push(i);
+    }
+    return pge;
+}
+//! main function where it will use
+int total_sum_of_range_of_subarray(vector<int>&arr,int n){
+    vector<int>pse = pSe(arr,n);
+    vector<int>nse = nSe(arr,n);
+    vector<int>pge = pGe(arr,n);
+    vector<int>nge = nGe(arr,n);
+    int total = 0;
+    int mod = (int)1e9+7;
+    for(int i=0;i<n;i++){
+        int left_sm = i - pse[i];
+        int right_sm = nse[i] - i;
+        int left_lg = i - pge[i];
+        int right_lg = nge[i] - i;
+
+        int largest = right_lg*left_lg*1ll*arr[i];
+        int smallest = right_sm*left_sm*1ll*arr[i];
+        int range = largest-smallest;
+        
+        total = (total+range)%mod;
+    }
+    return total;
+}
 int main(){
     int n;
     cout<<"\nenter the size of the array = ";
@@ -195,7 +241,9 @@ int main(){
 
     // cout<<"\ntotal tapped rain = "<<total_tapped_water(arr,n);
 
-    cout<<"\ntotal sum of subarray minimum = "<<sum_subarray(arr,n);
+    // cout<<"\ntotal sum of subarray minimum = "<<sum_subarray(arr,n);
 
-    cout<<"\ntotal sum of subarray minimum = "<<total_subarray_sum(arr,n);
+    // cout<<"\ntotal sum of subarray minimum = "<<total_subarray_sum(arr,n);
+
+    cout<<"\nrange sum of all subarray = "<<total_sum_of_range_of_subarray(arr,n);
 }
