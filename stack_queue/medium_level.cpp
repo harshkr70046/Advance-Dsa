@@ -157,6 +157,31 @@ vector<int> next_greater_element_in_circular_array(vector<int>&arr,int n){
     return v;
 }
 
+//! next smallest elemnt in the array
+vector<int> NSmallestE(vector<int>&arr,int n){
+    vector<int>v(n);
+    int mini = arr[0];
+    v[0] = -1;
+    for(int i=1;i<n;i++){
+        v[i] = (mini<arr[i]) ? mini:-1;
+        mini = min(mini,arr[i]);
+    }
+    return v;
+}
+
+//! using monotonic stack for next smallest element in the array
+vector<int> Next_smallest_Element(vector<int>&arr,int n){
+    vector<int>v(n);
+    stack<int>st;
+    for(int i=0;i<n;i++){
+        while(!st.empty() && st.top()>=arr[i]) st.pop();
+
+        v[i] = (st.empty())?-1:st.top();
+        st.push(arr[i]);
+    }
+    return v;
+
+}
 int main(){
     // impliment_stack harsh;
     // harsh.push(12);
@@ -222,7 +247,18 @@ int main(){
     // cout<<endl;
     // print_array(v,n);
 
-    vector<int>v = next_greater_element_in_circular_array(arr,n);
+    // vector<int>v = next_greater_element_in_circular_array(arr,n);
+    // cout<<endl;
+    // print_array(v,n);
+
+    //**********************Next smallest Element************************** */
+
+    // vector<int>v = NSmallestE(arr,n);
+    // cout<<endl;
+    // print_array(v,n);
+
+    vector<int>v = Next_smallest_Element(arr,n);
     cout<<endl;
     print_array(v,n);
+
 }
