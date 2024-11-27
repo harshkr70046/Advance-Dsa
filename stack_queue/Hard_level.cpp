@@ -220,6 +220,21 @@ int total_sum_of_range_of_subarray(vector<int>&arr,int n){
     }
     return total;
 }
+//! Aestroid Collision
+vector<int> Aestroid_Collision(vector<int>&arr,int n){
+    vector<int>st;
+    for(int i=0;i<n;i++){
+        if(arr[i]>0) st.push_back(arr[i]);
+        else {
+            while(!st.empty() && st.back()>0 && st.back()<abs(arr[i])){
+                st.pop_back();
+            }
+            if(!st.empty() && st.back()==abs(arr[i])) st.pop_back();
+            else if(st.empty() || st.back()<0) st.push_back(arr[i]);
+        }
+    }
+    return st;
+}
 int main(){
     int n;
     cout<<"\nenter the size of the array = ";
@@ -245,5 +260,7 @@ int main(){
 
     // cout<<"\ntotal sum of subarray minimum = "<<total_subarray_sum(arr,n);
 
-    cout<<"\nrange sum of all subarray = "<<total_sum_of_range_of_subarray(arr,n);
+    // cout<<"\nrange sum of all subarray = "<<total_sum_of_range_of_subarray(arr,n);
+    vector<int>astroid = Aestroid_Collision(arr,n);
+    print_array(astroid,astroid.size());
 }
