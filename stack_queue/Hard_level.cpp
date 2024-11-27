@@ -235,17 +235,150 @@ vector<int> Aestroid_Collision(vector<int>&arr,int n){
     }
     return st;
 }
+//! largest rectange in the histogram
+//* to find thid problem we need to find the pse and nse.
+vector<int> PsmallElement(vector<int>&arr,int n){
+    stack<int>st;
+    vector<int>v(n);
+
+    for(int i=0;i<n;i++){
+        while(!st.empty() && arr[st.top()]>=arr[i]) {
+            st.pop();
+        }
+        v[i] = (st.empty())?-1:st.top();
+        st.push(i);
+    }
+    return v;
+}
+
+vector<int> NsmallElement(vector<int>&arr,int n){
+    stack<int>st;
+    vector<int>v(n);
+
+    for(int i=n-1;i>=0;i--){
+        while(!st.empty() && arr[st.top()]>=arr[i]) {
+            st.pop();
+        }
+        v[i] = (st.empty())?n:st.top();
+        st.push(i);
+    }
+    return v;
+}
+int area_of_largest_rectange(vector<int>&arr,int n){
+    int max_area = INT_MIN;
+    vector<int>nse = NsmallElement(arr,n);
+    vector<int>pse = PsmallElement(arr,n);
+    for(int i=0;i<n;i++){
+        int leftMax = pse[i];
+        int rightMax = nse[i];
+        int area = arr[i]*(rightMax-leftMax-1);
+        max_area = max(max_area,area);
+    }
+    return max_area;
+}
+//! optimal code for largest area of rectange in histogram
+int LAORIH(vector<int>&arr,int n){
+    int maxArea = 0;
+    stack<int>st;
+    for(int i=0;i<n;i++){
+        while(!st.empty() && arr[st.top()]>arr[i]){
+            int ele = st.top();
+            st.pop();
+            int nse = i;
+            int pse = st.empty()?-1:st.top();
+            maxArea = max(arr[ele]*(nse-pse-1),maxArea);
+        }
+        st.push(i);
+    }
+    while(!st.empty()){
+        int ele = st.top();
+        st.pop();
+        int nse = n;
+        int pse = st.empty()?-1:st.top();
+        maxArea = max(arr[ele]*(nse-pse-1),maxArea);
+    }
+    return maxArea;
+}
+//! maximum rectange in 2d array.
+void input_2d_arrray(vector<vector<int>>&arr,int n,int m){
+    for(int i=0;i<n;i++){
+        vector<int>temp;
+        for(int j=0;j<m;j++){
+            int num;
+            cout<<"\nenter the element of the array = ";
+            cin>>num;
+            temp.push_back(num);
+        }
+        arr.push_back(temp);
+    }
+}
+void print_2d_array(vector<vector<int>>&arr,int n,int m){
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            cout<<arr[i][j]<<"      ";
+        }
+        cout<<endl;
+    }
+}
+//! prefix sum in 2d array
+// Function to calculate prefix sum of the 2D array column-wise
+vector<vector<int>> prefix_sum(vector<vector<int>>& arr, int n, int m) {
+    vector<vector<int>> v(n, vector<int>(m));
+    for (int i = 0; i < m; i++) {
+        int sum = 0;
+        for (int j = 0; j < n; j++) {
+            sum += arr[j][i];
+            v[j][i] = sum;
+        }
+    }
+    return v;
+}
+
+// Function to calculate the largest rectangle in a histogram
+int LAORIH_(vector<int>& arr, int n) {
+    int maxArea = 0;
+    stack<int> st;
+    for (int i = 0; i < n; i++) {
+        while (!st.empty() && arr[st.top()] > arr[i]) {
+            int ele = st.top();
+            st.pop();
+            int nse = i;
+            int pse = st.empty() ? -1 : st.top();
+            maxArea = max(arr[ele] * (nse - pse - 1), maxArea);
+        }
+        st.push(i);
+    }
+    while (!st.empty()) {
+        int ele = st.top();
+        st.pop();
+        int nse = n;
+        int pse = st.empty() ? -1 : st.top();
+        maxArea = max(arr[ele] * (nse - pse - 1), maxArea);
+    }
+    return maxArea;
+}
+
+// Function to find the maximum rectangle sum in a 2D array
+int max_rectangle_in_2d_array(vector<vector<int>>& arr, int n, int m) {
+    vector<vector<int>> Psum = prefix_sum(arr, n, m);
+    int maxRect = 0;
+    for (int i = 0; i < n; i++) {
+        maxRect = max(LAORIH_(Psum[i], m), maxRect);
+    }
+    return maxRect;
+}
+
 int main(){
-    int n;
-    cout<<"\nenter the size of the array = ";
-    cin>>n;
-    vector<int>arr;
+    // int n;
+    // cout<<"\nenter the size of the array = ";
+    // cin>>n;
+    // vector<int>arr;
 
-    input_array(arr,n);
-    print_array(arr,n);
+    // input_array(arr,n);
+    // print_array(arr,n);
 
-    vector<int> pmax = prefix_max(arr,n);
-    vector<int> smax = suffix_max(arr,n);
+    // vector<int> pmax = prefix_max(arr,n);
+    // vector<int> smax = suffix_max(arr,n);
 
     // print_array(pmax,n);
     // print_array(smax,n);
@@ -261,6 +394,20 @@ int main(){
     // cout<<"\ntotal sum of subarray minimum = "<<total_subarray_sum(arr,n);
 
     // cout<<"\nrange sum of all subarray = "<<total_sum_of_range_of_subarray(arr,n);
-    vector<int>astroid = Aestroid_Collision(arr,n);
-    print_array(astroid,astroid.size());
+    // vector<int>astroid = Aestroid_Collision(arr,n);
+    // print_array(astroid,astroid.size());
+
+    // cout<<"\nlargest area rectange = "<<area_of_largest_rectange(arr,n);
+
+    // cout<<"\nlargest area rectange = "<<LAORIH(arr,n);
+
+     vector<vector<int>> arr = {
+        {1, 0, 1, 0, 0},
+        {1, 0, 1, 1, 1},
+        {1, 1, 1, 1, 1},
+        {1, 0, 0, 1, 0}
+    };
+    int n = arr.size();
+    int m = arr[0].size();
+    cout << "Maximum Rectangle Sum: " << max_rectangle_in_2d_array(arr, n, m) << endl;
 }
