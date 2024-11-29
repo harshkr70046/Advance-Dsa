@@ -99,6 +99,58 @@ vector<int> maximum_in_kLength_window(vector<int>&arr,int n,int k){
 
     return v;
 }
+
+//! celebraty problem
+void input_fan(vector<vector<int>>&arr,int n){
+    for(int i=0;i<n;i++){
+        vector<int>temp;
+        for(int j=0;j<n;j++){
+            int num;
+            cout<<"\nenter the fan = ";
+            cin>>num;
+            temp.push_back(num);
+        }
+        arr.push_back(temp);
+    }
+}
+int celebraty_solution(vector<vector<int>>&arr,int n){
+    vector<int>Knowme(n);
+    vector<int>iKnow(n);
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            if(arr[i][j]==1){
+                Knowme[j]++;
+                iKnow[i]++;
+            }
+        }
+    }
+    for(int i=0;i<n;i++){
+        if(Knowme[i]==n-1 && iKnow[i]==0){
+            return 1;
+        }
+    }
+    return 0;
+}
+//! optimal code
+int optimal_code_for_celebraty(vector<vector<int>>&arr,int n){
+    int top = 0;
+    int down = n-1;
+    while(top<down){
+        if(arr[top][down]==1) top++;
+        else if(arr[down][top]) down--;
+        else{
+            top--;
+            down--;
+        }
+    }
+    if(top>down) return -1;
+    for(int i=0;i<n;i++){
+        if(i==top) continue;
+        if(arr[top][i]==0 && arr[i][top]==1);
+        else return -1; 
+    }
+    return top;
+}
 int main(){
     int n;
     cout<<"\nenter the size of the array = ";
@@ -110,12 +162,15 @@ int main(){
     // vector<char>ans = smallest_number(v,n,3);
     // cout<<endl;
     // print_array(ans,ans.size());
-    vector<int>arr;
-    input_days(arr,n);
-    print_days(arr,n);
+    // vector<int>arr;
+    // input_days(arr,n);
+    // print_days(arr,n);
     // cout<<"\n Maximum consiqutive days = "<<maximum_days(arr,n);
-    vector<int>ans = maximum_in_kLength_window(arr,n,3);
-    cout<<endl;
-    print_days(ans,ans.size());
+    // vector<int>ans = maximum_in_kLength_window(arr,n,3);
+    // cout<<endl;
+    // print_days(ans,ans.size());
+    vector<vector<int>>arr;
+    input_fan(arr,n);
+    cout<<"\ncelebraty = "<<optimal_code_for_celebraty(arr,n);
     
 }
