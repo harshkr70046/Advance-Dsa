@@ -126,7 +126,7 @@ int celebraty_solution(vector<vector<int>>&arr,int n){
     }
     for(int i=0;i<n;i++){
         if(Knowme[i]==n-1 && iKnow[i]==0){
-            return 1;
+            return i;
         }
     }
     return 0;
@@ -151,10 +151,156 @@ int optimal_code_for_celebraty(vector<vector<int>>&arr,int n){
     }
     return top;
 }
+class node{
+    public:
+    int data;
+    node* next;
+    node* prev;
+    public:
+    node(int data1,node* next1,node* prev1){
+        data = data1;
+        next = next1;
+        prev = prev1;
+    }
+    node(int data1){
+        data = data1;
+        next = nullptr;
+        prev = nullptr;
+    }
+};
+void input_array(vector<int>&arr,int n){
+    for(int i=0;i<n;i++){
+        int num;
+        cout<<"\nenter the element of the array = ";
+        cin>>num;
+        arr.push_back(num);
+    }
+}
+void print_array(vector<int>&arr,int n){
+    for(int i=0;i<n;i++){
+        cout<<arr[i]<<"     ";
+    }
+    cout<<endl;
+}
+node* convert_array_to_dll(vector<int>&arr,int n){
+    node* head = new node(arr[0]);
+    node* mover = head;
+    
+    for(int i=1;i<n;i++){
+        node* temp = new node(arr[i]);
+        mover->next = temp;
+        temp->prev = mover;
+        mover = temp;
+    }
+    return head;
+}
+void print_dll(node* head){
+    node* mover = head;
+    node* p = nullptr;
+    while(mover!=nullptr){
+        cout<<mover->data<<"    ";
+        p = mover;
+        mover = mover->next;
+    }
+    cout<<endl;
+    while(p!=nullptr){
+        cout<<p->data<<"     ";
+        p = p->prev;
+    }
+    cout<<endl;
+}
+node* delete_node(node* head,int val,int pos){
+    node* mover = head;
+    int cnt = 1;
+    while(mover!=nullptr){
+        if(cnt==pos-1) break;
+        mover = mover->next;
+        cnt++;
+    }
+    node* value = new node(val);
+    node* deltemp = mover->next;
+    mover->next = value;
+    value->prev = mover;
+    value->next = deltemp->next;
+    node* front = deltemp->next;
+    front->prev = value;
+    return head;
+}
+
+class LRUCache {
+  public:
+    class node {
+      public:
+        int key;
+      int val;
+      node * next;
+      node * prev;
+      node(int _key, int _val) {
+        key = _key;
+        val = _val;
+      }
+    };
+
+  node * head = new node(-1, -1);
+  node * tail = new node(-1, -1);
+
+  int cap;
+  unordered_map < int, node * > m;
+
+  LRUCache(int capacity) {
+    cap = capacity;
+    head -> next = tail;
+    tail -> prev = head;
+  }
+
+  void addnode(node * newnode) {
+    node * temp = head -> next;
+    newnode -> next = temp;
+    newnode -> prev = head;
+    head -> next = newnode;
+    temp -> prev = newnode;
+  }
+
+  void deletenode(node * delnode) {
+    node * delprev = delnode -> prev;
+    node * delnext = delnode -> next;
+    delprev -> next = delnext;
+    delnext -> prev = delprev;
+  }
+
+  int get(int key_) {
+    if (m.find(key_) != m.end()) {
+      node * resnode = m[key_];
+      int res = resnode -> val;
+      m.erase(key_);
+      deletenode(resnode);
+      addnode(resnode);
+      m[key_] = head -> next;
+      return res;
+    }
+
+    return -1;
+  }
+
+  void put(int key_, int value) {
+    if (m.find(key_) != m.end()) {
+      node * existingnode = m[key_];
+      m.erase(key_);
+      deletenode(existingnode);
+    }
+    if (m.size() == cap) {
+      m.erase(tail -> prev -> key);
+      deletenode(tail -> prev);
+    }
+
+    addnode(new node(key_, value));
+    m[key_] = head -> next;
+  }
+};
 int main(){
-    int n;
-    cout<<"\nenter the size of the array = ";
-    cin>>n;
+    // int n;
+    // cout<<"\nenter the size of the array = ";
+    // cin>>n;
     // vector<char>v;
     // input_array(v,n);
     // cout<<endl;
@@ -169,8 +315,15 @@ int main(){
     // vector<int>ans = maximum_in_kLength_window(arr,n,3);
     // cout<<endl;
     // print_days(ans,ans.size());
-    vector<vector<int>>arr;
-    input_fan(arr,n);
-    cout<<"\ncelebraty = "<<optimal_code_for_celebraty(arr,n);
-    
+    // vector<vector<int>>arr;
+    // input_fan(arr,n);
+    // cout<<"\ncelebraty = "<<optimal_code_for_celebraty(arr,n);
+    // vector<int>arr;
+    // input_array(arr,n);
+    // print_array(arr,n);
+    // node* head = convert_array_to_dll(arr,n);
+    // print_dll(head);
+    // node* upadte = delete_node(head,7,3);
+    // print_dll(upadte);
+
 }
