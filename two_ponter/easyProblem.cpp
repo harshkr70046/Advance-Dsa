@@ -75,6 +75,23 @@ int maximum_consecutiveOne(vector<int>&arr,int n,int k){
     }
     return maxi;
 }
+//! optimal code
+int max_len(vector<int>&arr,int n,int k){
+    int l = 0;
+    int r = 0;
+    int maxi = 0;
+    int zero = 0;
+    while(r<n){
+        if(arr[r]==0) zero++;
+        if(zero>k){
+            if(arr[l]==0) zero--;
+            l++;
+        }
+        if(zero<=k) maxi = max(maxi,r-l+1);
+        r++;
+    }
+    return maxi;
+}
 int main(){
     int n;
     cout<<"\nenter the size of the array = ";
@@ -87,5 +104,5 @@ int main(){
     // cout<<"\nMaximum point can obtain from k card = "<<maxiPointObtainCard(arr,n,4);
     input_array(arr,n);
     print_array(arr,n);
-    cout<<"\nMaximum length of consecutive one = "<<maximum_consecutiveOne(arr,n,2);
+    cout<<"\nMaximum length of consecutive one = "<<max_len(arr,n,2);
 }
