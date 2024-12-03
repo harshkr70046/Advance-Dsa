@@ -1,15 +1,15 @@
 #include<iostream>
 #include<bits/stdc++.h>
 using namespace std;
-void input_array(vector<char>&arr,int n){
+void input_array(vector<int>&arr,int n){
     for(int i=0;i<n;i++){
-        char num;
+        int num;
         cout<<"\nenter the element of the array = ";
         cin>>num;
         arr.push_back(num);
     }
 }
-void print_array(vector<char>&arr,int n){
+void print_array(vector<int>&arr,int n){
     for(int i=0;i<n;i++){
         cout<<arr[i]<<"  ";
     }
@@ -57,14 +57,35 @@ int maxi_unique_len(vector<char>&arr,int n){
     }
     return maxi;
 }
+//! maximum consecutive one after fliping k zero
+int maximum_consecutiveOne(vector<int>&arr,int n,int k){
+    int l = 0;
+    int r = 0;
+    int cnt = 0;
+    int maxi = 0;
+    while(r<n){
+        if(arr[r]==0) cnt++;
+        while(cnt>k){
+            if(arr[l]==0) cnt--;
+            l++;
+        }
+        
+        maxi = max(maxi,r-l+1);
+        r++;
+    }
+    return maxi;
+}
 int main(){
     int n;
     cout<<"\nenter the size of the array = ";
     cin>>n;
-    // vector<int>arr;
-    vector<char>arr;
+    vector<int>arr;
+    // vector<char>arr;
+    // input_array(arr,n);
+    // print_array(arr,n);
+    // cout<<"\nMaxlen = "<<maxi_unique_len(arr,n);
+    // cout<<"\nMaximum point can obtain from k card = "<<maxiPointObtainCard(arr,n,4);
     input_array(arr,n);
     print_array(arr,n);
-    cout<<"\nMaxlen = "<<maxi_unique_len(arr,n);
-    // cout<<"\nMaximum point can obtain from k card = "<<maxiPointObtainCard(arr,n,4);
+    cout<<"\nMaximum length of consecutive one = "<<maximum_consecutiveOne(arr,n,2);
 }
