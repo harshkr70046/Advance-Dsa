@@ -144,6 +144,94 @@ int max_Len_ofKdistinctChar(string s,int k){
     }
     return maxi;
 }
+
+//! Number of substring containing all three characters
+int Number_of_subtring(string s,int k){
+    int cnt = 0;
+    for(int i=0;i<s.size();i++){
+        int arr[3] = {0};
+        for(int j=i;j<s.size();j++){
+            arr[s[j]-'a']=1;
+            if(arr[0]+arr[1]+arr[2]==3){
+                cnt=cnt+(s.size()-j);
+                break;
+            }
+        }
+    }
+    return cnt;
+}
+//! optimal code
+int totalSubarrayWithKChar(string s,int k){
+    int lastSeen[3] = {-1,-1,-1};
+    int cnt = 0;
+    for(int i=0;i<s.size();i++){
+        lastSeen[s[i]-'a'] = i;
+        if(lastSeen[0]!=-1 && lastSeen[1]!=-1 && lastSeen[2]!=-1){
+            cnt+=(1+min(min(lastSeen[0],lastSeen[1]),lastSeen[2]));
+        }
+    }
+    return cnt;
+}
+//! find the longest substring after changing k char 
+int longest_substring(string s,int k){
+    int maxLen = 0;
+    for(int i=0;i<s.size();i++){
+        int arr[26] = {0};
+        int maxFreq = 0;
+        for(int j=i;j<s.size();j++){
+            arr[s[j]]++;
+            maxFreq = max(maxFreq,arr[s[i]]);
+            int changes = (j-i+1) - maxFreq;
+            if(changes<=k){
+                maxLen = max(maxLen,j-i+1);
+            } 
+            else{
+                break;
+            }
+        }
+    }
+    return maxLen;
+}
+//! optimal code
+int longestSubtr(string s,int T){
+    int l = 0,r = 0,maxlen = 0, maxFreq = 0;
+    int arr[26] = {0};
+    while(r<s.size()){
+        arr[s[r]-'A']++;
+        maxFreq = max(maxFreq,arr[s[r]-'A']);
+        while(r-l+1 - maxFreq > T){
+            arr[s[l]-'A']--;
+            maxFreq = 0;
+            for(int k=0;k<26;k++){
+                if(maxFreq<arr[k]) maxFreq = arr[k];
+            }
+            l = l+1;
+        }
+        if((r-l+1)-maxFreq <= T){
+            maxlen = max(maxlen,r-l+1);
+        }
+        r++;
+    }
+    return maxlen;
+}
+//! more optimize
+int longestSubtrKChange(string s,int T){
+    int l = 0,r = 0,maxlen = 0, maxFreq = 0;
+    int arr[26] = {0};
+    while(r<s.size()){
+        arr[s[r]-'A']++;
+        maxFreq = max(maxFreq,arr[s[r]-'A']);
+        if(r-l+1 - maxFreq > T){
+            arr[s[l]-'A']--;
+            l = l+1;
+        }
+        if((r-l+1)-maxFreq <= T){
+            maxlen = max(maxlen,r-l+1);
+        }
+        r++;
+    }
+    return maxlen;
+}
 int main(){
     // int n;
     // cout<<"\nenter the size of the array = ";
@@ -152,6 +240,11 @@ int main(){
     // input_array(arr,n);
     // print_array(arr,n);
     //cout<<"\nMaximum frute of 2 type is = "<<max_len_of_fruite(arr,n,2);
-    string s = "aaabbccd";
-    cout<<"\n maximum len of k chr = "<<max_Len_ofKdistinctChar(s,2);
-}
+    //string s = "bbacba";
+    // cout<<"\n maximum len of k chr = "<<max_Len_ofKdistinctChar(s,2);
+    // cout<<"\nTotal number of substring = "<<totalSubarrayWithKChar(s,3);
+
+    string s = "AAABA";
+    // cout<<"\nlongest substring after chage k char = "<<longest_substring(s,2);
+    cout<<"\n Longest len of substring = "<<longestSubtrKChange(s,2);
+}  
