@@ -28,10 +28,14 @@ pair<int,int> maximum_profit_after_unique_job(vector<vector<int>>&arr,int n){
     sort(arr.begin(),arr.end(),comp);
     int maxProfit = 0;
     int cntJob = 0;
-    vector<int>track(n,-1);
+    int max_dedline = -1;
+    for(int i=0;i<n;i++){
+        if(max_dedline<arr[i][1]) max_dedline = arr[i][1];
+    }
+    vector<int>track(max_dedline+1,-1);
     for(int i=0;i<n;i++){
         int dedline = arr[i][1];
-        for(int j=arr[i][1]-1;j>=0;j--){
+        for(int j=min(dedline,max_dedline);j>=0;j--){
             if(track[j]==-1){
                 maxProfit+=arr[i][2];
                 cntJob++;
