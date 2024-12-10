@@ -35,9 +35,44 @@ int totalMeating(vector<vector<int>>&arr){
             count++;
             lastEnd = end;
         }
-        
     }
     return count;
+}
+int numberOverLaping(vector<vector<int>>&arr){
+    
+    sort(arr.begin(),arr.end(),comp);
+    int count = 1;
+    int lastEnd = arr[0][1];
+    for(int i=1;i<arr.size();i++){
+        int start = arr[i][0];
+        int end = arr[i][1];
+        if(start>=lastEnd){
+            count++;
+            lastEnd = end;
+        }
+    }
+    return arr.size()-count;
+}
+//! second method 
+int TotalnumberOverlapping(vector<vector<int>>& arr) {
+    sort(arr.begin(), arr.end(), comp); // Sort intervals by start time
+    int overlapCount = 0;
+    int lastEnd = arr[0][1]; // End time of the first interval
+
+    for (int i = 1; i < arr.size(); i++) {
+        int start = arr[i][0];
+        int end = arr[i][1];
+
+        // If the current interval overlaps with the previous one
+        if (start < lastEnd) {
+            overlapCount++;
+            lastEnd = max(lastEnd, end); // Update lastEnd to cover maximum overlap
+        } else {
+            lastEnd = end; // Update lastEnd to the current interval's end
+        }
+    }
+
+    return overlapCount;
 }
 int main(){
     int n;
@@ -49,5 +84,6 @@ int main(){
     vector<vector<int>>arr;
     input_array(arr,n,m);
     print_array(arr);
-    cout<<"Total  Meating = "<<totalMeating(arr);
+    // cout<<"Total  Meating = "<<totalMeating(arr);
+    cout<<"\n No overLap = "<<TotalnumberOverlapping(arr);
 }
