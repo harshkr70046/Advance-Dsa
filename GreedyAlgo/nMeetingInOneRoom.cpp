@@ -74,6 +74,27 @@ int TotalnumberOverlapping(vector<vector<int>>& arr) {
 
     return overlapCount;
 }
+//! insert interval
+vector<pair<int, int>> insertInterval(vector<pair<int, int>>& intervals, pair<int, int> newInterval) {
+    vector<pair<int,int>>ans;
+    int i = 0;
+    int n = intervals.size();
+    while(i<n && intervals[i].second<newInterval.first){
+        ans.push_back({intervals[i].first,intervals[i].second});
+        i++;
+    }
+    while(i<n && intervals[i].first<newInterval.second){
+        newInterval.first = min(newInterval.first,intervals[i].first);
+        newInterval.second = max(newInterval.second,intervals[i].second);
+        i++;
+    }
+    ans.push_back(newInterval);
+    while(i<n){
+        ans.push_back({intervals[i].first,intervals[i].second});
+        i++;
+    }
+    return ans;
+}
 int main(){
     int n;
     cout<<"\nRow size   = ";
@@ -81,9 +102,24 @@ int main(){
     int m;
     cout<<"\nColum size  = ";
     cin>>m;
-    vector<vector<int>>arr;
-    input_array(arr,n,m);
-    print_array(arr);
+    // vector<vector<int>>arr;
+    // input_array(arr,n,m);
+    // print_array(arr);
     // cout<<"Total  Meating = "<<totalMeating(arr);
-    cout<<"\n No overLap = "<<TotalnumberOverlapping(arr);
+    //cout<<"\n No overLap = "<<TotalnumberOverlapping(arr);
+    vector<pair<int,int>>interval;
+    for(int i=0;i<n;i++){
+        int num1,num2;
+        cout<<"\nenter the first num = ";
+        cin>>num1;
+        cout<<"\nenter the second num = ";
+        cin>>num2;
+        interval.push_back({num1,num2});
+    }
+    pair<int,int>newinteval;
+    newinteval = {6,8};
+    vector<pair<int,int>>ans = insertInterval(interval,newinteval);
+    for(int i=0;i<ans.size();i++){
+        cout<<"{"<<ans[i].first<<" "<<ans[i].second<<"}";
+    }
 }
