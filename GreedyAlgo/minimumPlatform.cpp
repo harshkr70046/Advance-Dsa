@@ -76,21 +76,49 @@ bool is_valid_or_not(string &s){
     }
     return mini==0;
 }
+//! candy Distribution
+int totalcandyDistibution(vector<int>&arr,int n){
+    vector<int>lrr(n);
+    vector<int>rrr(n);
+    lrr[0] = 1;
+    for(int i=1;i<n;i++){
+        if(arr[i]<=arr[i-1]){
+            lrr[i] = 1;
+        }
+        else {
+            lrr[i] = lrr[i-1]+1;
+        }
+    }
+    rrr[n-1] = 1;
+    for(int i=n-2;i>=0;i--){
+        if(arr[i]<=arr[i+1]){
+            rrr[i] = 1;
+        }
+        else {
+            rrr[i] = rrr[i+1]+1;
+        }
+    }
+    int sum = 0;
+    for(int i=0;i<n;i++){
+        sum+=max(lrr[i],rrr[i]);
+    }
+    return sum;
+}
 int main(){
-    // int n;
-    // cout<<"\nenter the size of the array = ";
-    // cin>>n;
-    // vector<int>arr;
+    int n;
+    cout<<"\nenter the size of the array = ";
+    cin>>n;
+    vector<int>arr;
     // vector<int>arr1;
-    // input_array(arr,n);
+    input_array(arr,n);
     // input_array(arr1,n);
-    // print_array(arr,n);
+    print_array(arr,n);
     // print_array(arr1,n);
     // cout<<"minimum platform = "<<minPlatformReq(arr,arr1);
-    string s = "(*()";
-    if(is_valid_or_not(s)){
-        cout<<"\n yes it is valid";
-    }
-    else cout<<"\n no it is not valid.";
-
+    // string s = "(*()";
+    // if(is_valid_or_not(s)){
+    //     cout<<"\n yes it is valid";
+    // }
+    // else cout<<"\n no it is not valid.";
+    cout<<"\n total candy = "<<totalcandyDistibution(arr,n);
 }
