@@ -35,15 +35,40 @@ int minPlatformReq(vector<int>&arr,vector<int>&arr2){
     }
     return maxCnt;
 }
+bool is_vaild(int ind,string &s,int cnt){
+    if(ind==s.size()){
+        return cnt==0;
+    }
+    if (cnt < 0) {
+        return false;
+    }
+    if(s[ind]=='('){
+        return is_vaild(ind+1,s,cnt+1);
+    }
+    if(s[ind]==')'){
+        return is_vaild(ind+1,s,cnt-1);
+    }
+    
+    return is_vaild(ind+1,s,cnt+1)||is_vaild(ind+1,s,cnt-1)||is_vaild(ind+1,s,cnt);
+}
+bool valid_paranthis(string &s){
+    return is_vaild(0,s,0);
+}
 int main(){
-    int n;
-    cout<<"\nenter the size of the array = ";
-    cin>>n;
-    vector<int>arr;
-    vector<int>arr1;
-    input_array(arr,n);
-    input_array(arr1,n);
-    print_array(arr,n);
-    print_array(arr1,n);
-    cout<<"minimum platform = "<<minPlatformReq(arr,arr1);
+    // int n;
+    // cout<<"\nenter the size of the array = ";
+    // cin>>n;
+    // vector<int>arr;
+    // vector<int>arr1;
+    // input_array(arr,n);
+    // input_array(arr1,n);
+    // print_array(arr,n);
+    // print_array(arr1,n);
+    // cout<<"minimum platform = "<<minPlatformReq(arr,arr1);
+    string s = "(*(";
+    if(valid_paranthis(s)){
+        cout<<"\n yes it is valid";
+    }
+    else cout<<"\n no it is not valid.";
+
 }
