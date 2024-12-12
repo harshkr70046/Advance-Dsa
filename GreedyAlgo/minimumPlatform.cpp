@@ -54,6 +54,28 @@ bool is_vaild(int ind,string &s,int cnt){
 bool valid_paranthis(string &s){
     return is_vaild(0,s,0);
 }
+//* optimal approch
+bool is_valid_or_not(string &s){
+    int mini = 0;
+    int maxi = 0;
+    for(int i=0;i<s.size();i++){
+        if(s[i]=='('){
+            mini+=1;
+            maxi+=1;
+        }
+        else if(s[i]==')'){
+            mini = mini-1;
+            maxi = maxi+1;
+        }
+        else{
+            mini = mini-1;
+            maxi = maxi+1;
+        }
+        if(mini<0) mini = 0;
+        if(maxi<0) return false;
+    }
+    return mini==0;
+}
 int main(){
     // int n;
     // cout<<"\nenter the size of the array = ";
@@ -65,8 +87,8 @@ int main(){
     // print_array(arr,n);
     // print_array(arr1,n);
     // cout<<"minimum platform = "<<minPlatformReq(arr,arr1);
-    string s = "(*(";
-    if(valid_paranthis(s)){
+    string s = "(*()";
+    if(is_valid_or_not(s)){
         cout<<"\n yes it is valid";
     }
     else cout<<"\n no it is not valid.";
