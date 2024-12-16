@@ -59,8 +59,31 @@ Node* binary_treeUsing_Rec(){
 
     return temp;
 }
+void print_preorder(Node* root){
+    if(root==nullptr) return;
+    cout<<root->data<<" ";
+    print_preorder(root->left);
+    print_preorder(root->right);
+}
+void print_Inorder(Node* root){
+    if(root==nullptr) return;
+    print_Inorder(root->left);
+    cout<<root->data<<" ";
+    print_Inorder(root->right);
+}
+void print_postorder(Node* root){
+    if(root==nullptr) return;
+    print_postorder(root->left);
+    print_postorder(root->right);
+    cout<<root->data<<" ";
+}
 int main(){
     cout<<"\nenter the root node => ";
     Node* root = binary_treeUsing_Rec();
-    //binaray_tree_in_queue();
+    cout<<endl;
+    print_preorder(root);
+    cout<<endl;
+    print_Inorder(root);
+    cout<<endl;
+    print_postorder(root);
 }
