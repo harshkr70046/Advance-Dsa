@@ -41,7 +41,26 @@ void binaray_tree_in_queue(){
     }
     
 }
-int main(){
 
-    binaray_tree_in_queue();
+//* create a binary tree using recursion
+Node* binary_treeUsing_Rec(){
+    int x;
+    cin>>x;
+    if(x==-1){
+        return nullptr;
+    }
+    Node* temp = new Node(x);
+    //left node
+    cout<<"\nenter the left child of "<<temp->data<<" => ";
+    temp->left = binary_treeUsing_Rec();
+    //right
+    cout<<"\nenter the right child of "<<temp->data<<" => ";
+    temp->right = binary_treeUsing_Rec();
+
+    return temp;
+}
+int main(){
+    cout<<"\nenter the root node => ";
+    Node* root = binary_treeUsing_Rec();
+    //binaray_tree_in_queue();
 }
