@@ -12,33 +12,36 @@ class Node{
         right = nullptr; 
     }
 };
-int main(){
+//* function to build binary tree using queue data structure
+void binaray_tree_in_queue(){
     int x;
-    cout<<"Enter the root elemnt = ";
+    cout<<"\nenter the root node of the binary tree = ";
     cin>>x;
-    int first,second;
     queue<Node*>q;
-    Node*root = new Node(x);
+    Node* root = new Node(x);
     q.push(root);
 
-    //!building Binary Tree
     while(!q.empty()){
         Node* temp = q.front();
         q.pop();
-        cout<<"\nEnter the left value of "<<temp->data<<" => ";
+        int first;
+        cout<<"\nenter the left child of "<<temp->data<<" => ";
         cin>>first;
-        //left node
         if(first!=-1){
             temp->left = new Node(first);
             q.push(temp->left);
         }
-        //right node
-        cout<<"\nEnter the right value of "<<temp->data<<" => ";
+        int second;
+        cout<<"\nenter the right child of "<<temp->data<<" => ";
         cin>>second;
-        //left node
         if(second!=-1){
             temp->right = new Node(second);
             q.push(temp->right);
         }
     }
+    
+}
+int main(){
+
+    binaray_tree_in_queue();
 }
