@@ -77,13 +77,26 @@ void print_postorder(Node* root){
     print_postorder(root->right);
     cout<<root->data<<" ";
 }
+void level_order(Node* root){
+    queue<Node*>q;
+    q.push(root);
+    while(!q.empty()){
+        Node* temp = q.front();
+        q.pop();
+        cout<<temp->data<<" ";
+        if(temp->left)q.push(temp->left);
+        if(temp->right)q.push(temp->right);
+    }
+}
 int main(){
     cout<<"\nenter the root node => ";
     Node* root = binary_treeUsing_Rec();
-    cout<<endl;
+    cout<<"\nPreOrder: ";
     print_preorder(root);
-    cout<<endl;
+    cout<<"\nInorder :";
     print_Inorder(root);
-    cout<<endl;
+    cout<<"\nPostOrder :";
     print_postorder(root);
+    cout<<"\nlevelOrder :";
+    level_order(root);
 }
