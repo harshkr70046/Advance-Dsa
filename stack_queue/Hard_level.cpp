@@ -160,7 +160,7 @@ vector<int> nSe(vector<int>&arr,int n){
     }
     return nse;
 }
-//! previous smaller element
+//! previous smaller element to find the perivious smaller
 vector<int> pSe(vector<int>&arr,int n){
     vector<int>pse(n);
     stack<int>st;
