@@ -82,7 +82,7 @@ int count_non_leaf_node(node* root){
 //! hight of binary tree
 int height_of_bt(node*root){
     if(root==nullptr) return 0;
-    return(1+max(height_of_bt(root->left),height_of_bt(root->right)))
+    return(1+max(height_of_bt(root->left),height_of_bt(root->right)));
 }
 int main(){
     cout<<"\nenter the root node = ";
