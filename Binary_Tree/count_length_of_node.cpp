@@ -55,18 +55,39 @@ void total_sum_of_bt(node* root,int &sum){
     total_sum_of_bt(root->left,sum);
     total_sum_of_bt(root->right,sum);
 }
+//!find the count of leaf node
+void count_leaf_node(node*root,int &cnt){
+    if(root==nullptr) return;
+
+    if(root->left==nullptr && root->right==nullptr){
+        cnt++;
+        return;
+    }
+
+    count_leaf_node(root->left,cnt);
+    count_leaf_node(root->right,cnt);
+}
+//! second method to find the leaf node
+int countLeafNode(node* root){
+    if(root==nullptr) return 0;
+    if(root->left==nullptr && root->right==nullptr) return 1;
+    return(countLeafNode(root->left)+countLeafNode(root->right));
+}
 int main(){
     cout<<"\nenter the root node = ";
     node* root = create_binary_tree();
     cout<<endl;
-    print_preOrder(root);
+    // print_preOrder(root);
     int cnt = 0;
-    find_length_of_tree(root,cnt);
-    cout<<"\nlength of tree = "<<cnt;
-    cout<<"\n length using second method = "<<find_length_of_bt(root);
+    // find_length_of_tree(root,cnt);
+    // cout<<"\nlength of tree = "<<cnt;
+    // cout<<"\n length using second method = "<<find_length_of_bt(root);
 
-    cout<<"\n total sum of the bt = "<<total_sum(root);
-    int sum = 0;
-    total_sum_of_bt(root,sum);
-    cout<<"\nsecond method of sum = "<<sum;
+    // cout<<"\n total sum of the bt = "<<total_sum(root);
+    // int sum = 0;
+    // total_sum_of_bt(root,sum);
+    // cout<<"\nsecond method of sum = "<<sum;
+    // count_leaf_node(root,cnt);
+    // cout<<"\nNumber of leaf node = "<<cnt;
+    cout<<"\ntotal leaf node = "<<countLeafNode(root);
 }
