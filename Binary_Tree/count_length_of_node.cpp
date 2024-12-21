@@ -73,6 +73,17 @@ int countLeafNode(node* root){
     if(root->left==nullptr && root->right==nullptr) return 1;
     return(countLeafNode(root->left)+countLeafNode(root->right));
 }
+//! count non leaf node
+int count_non_leaf_node(node* root){
+    if(!root) return 0;
+    if(!root->left && !root->right) return 0;
+    return (1+count_non_leaf_node(root->left)+count_non_leaf_node(root->right));
+}
+//! hight of binary tree
+int height_of_bt(node*root){
+    if(root==nullptr) return 0;
+    return(1+max(height_of_bt(root->left),height_of_bt(root->right)))
+}
 int main(){
     cout<<"\nenter the root node = ";
     node* root = create_binary_tree();
@@ -89,5 +100,6 @@ int main(){
     // cout<<"\nsecond method of sum = "<<sum;
     // count_leaf_node(root,cnt);
     // cout<<"\nNumber of leaf node = "<<cnt;
-    cout<<"\ntotal leaf node = "<<countLeafNode(root);
+    // cout<<"\ntotal leaf node = "<<countLeafNode(root);
+    cout<<"\nenter the total non leaf node = "<<count_non_leaf_node(root);
 }
