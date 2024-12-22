@@ -131,17 +131,24 @@ vector<int> largestValInEachLevel(node* root){
 //! is both the tree is same or not
 bool isIdentical(node* root1,node* root2){
     if(root1==nullptr && root2==nullptr) return true;
+    if((root1 && !root2) || (!root1 && root2)) return false;
     if(root1->data!=root2->data) return false;
-    isIdentical(root1->left,root2->left);
-    isIdentical(root1->right,root2->right);
+    return isIdentical(root1->left,root2->left)&&isIdentical(root1->right,root2->right);
+}
+//! convert tree into mirror form
+void convertIntoMirrorImage(node* root){
+    if(root==nullptr) return;
+    swap(root->left,root->right);
+    convertIntoMirrorImage(root->left);
+    convertIntoMirrorImage(root->right);
 }
 int main(){
     cout<<"\nenter the first root node = ";
     node* root1 = create_binary_tree();
     cout<<endl;
-    cout<<"\nenter the second root node = ";
-    node* root2 = create_binary_tree2();
-    // print_preOrder(root);
+    // cout<<"\nenter the second root node = ";
+    // node* root2 = create_binary_tree2();
+    print_preOrder(root1);
     // int cnt = 0;
     // find_length_of_tree(root,cnt);
     // cout<<"\nlength of tree = "<<cnt;
@@ -160,10 +167,12 @@ int main(){
     // for(int i=0;i<ans.size();i++){
     //     cout<<ans[i]<<" ";
     // }
-    if(isIdentical(root1,root2)){
-        cout<<"\nyes it is identical.";
-    }
-    else{
-        cout<<"\n no it is not identical.";
-    }
+    // if(isIdentical(root1,root2)){
+    //     cout<<"\nyes it is identical.";
+    // }
+    // else{
+    //     cout<<"\n no it is not identical.";
+    // }
+    convertIntoMirrorImage(root1);
+    print_preOrder(root1);
 }
