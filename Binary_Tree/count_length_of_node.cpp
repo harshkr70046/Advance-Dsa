@@ -17,9 +17,20 @@ node* create_binary_tree(){
     cin>>x;
     if(x==-1) return nullptr;
     node* temp = new node(x);
-    cout<<"\nenter the left node of "<<temp->data<<" = ";
+    cout<<"\nenter the first root left node of "<<temp->data<<" = ";
     temp->left = create_binary_tree();
-    cout<<"\nenter the right node of "<<temp->data<<" = ";
+    cout<<"\nenter the first root right node of "<<temp->data<<" = ";
+    temp->right = create_binary_tree();
+    return temp;
+}
+node* create_binary_tree2(){
+    int x;
+    cin>>x;
+    if(x==-1) return nullptr;
+    node* temp = new node(x);
+    cout<<"\nenter the second root left node of "<<temp->data<<" = ";
+    temp->left = create_binary_tree();
+    cout<<"\nenter the second root right node of "<<temp->data<<" = ";
     temp->right = create_binary_tree();
     return temp;
 }
@@ -84,12 +95,54 @@ int height_of_bt(node*root){
     if(root==nullptr) return 0;
     return(1+max(height_of_bt(root->left),height_of_bt(root->right)));
 }
+//! level order transveral
+void level_order(node* root){
+    queue<node*>q;
+    q.push(root);
+    int cnt = 1;
+    while(!q.empty()){
+        node* temp = q.front();
+        q.pop();
+        cout<<"\nstep:"<<cnt<<temp->data<<" ";
+        if(temp->left)q.push(temp->left);
+        if(temp->right)q.push(temp->right);
+        cnt++;
+    }
+}
+//! larget value in each level.
+vector<int> largestValInEachLevel(node* root){
+    queue<node*>q;
+    vector<int>ans;
+    q.push(root);
+    while(!q.empty()){
+        int n = q.size();
+        int maxi = INT_MIN;
+        for(int i=0;i<n;i++){
+            node* temp = q.front();
+            q.pop();
+            maxi = max(maxi,temp->data);
+            if(temp->left) q.push(temp->left);
+            if(temp->right)q.push(temp->right);
+        }
+        ans.push_back(maxi);
+    }
+    return ans;
+}
+//! is both the tree is same or not
+bool isIdentical(node* root1,node* root2){
+    if(root1==nullptr && root2==nullptr) return true;
+    if(root1->data!=root2->data) return false;
+    isIdentical(root1->left,root2->left);
+    isIdentical(root1->right,root2->right);
+}
 int main(){
-    cout<<"\nenter the root node = ";
-    node* root = create_binary_tree();
+    cout<<"\nenter the first root node = ";
+    node* root1 = create_binary_tree();
     cout<<endl;
+    cout<<"\nenter the second root node = ";
+    node* root2 = create_binary_tree2();
     // print_preOrder(root);
-    int cnt = 0;
+    // int cnt = 0;
     // find_length_of_tree(root,cnt);
     // cout<<"\nlength of tree = "<<cnt;
     // cout<<"\n length using second method = "<<find_length_of_bt(root);
@@ -101,5 +154,16 @@ int main(){
     // count_leaf_node(root,cnt);
     // cout<<"\nNumber of leaf node = "<<cnt;
     // cout<<"\ntotal leaf node = "<<countLeafNode(root);
-    cout<<"\nenter the total non leaf node = "<<count_non_leaf_node(root);
+    // cout<<"\nenter the total non leaf node = "<<count_non_leaf_node(root);
+    // level_order(root);
+    // vector<int>ans = largestValInEachLevel(root);
+    // for(int i=0;i<ans.size();i++){
+    //     cout<<ans[i]<<" ";
+    // }
+    if(isIdentical(root1,root2)){
+        cout<<"\nyes it is identical.";
+    }
+    else{
+        cout<<"\n no it is not identical.";
+    }
 }
