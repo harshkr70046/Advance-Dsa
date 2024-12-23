@@ -98,14 +98,57 @@ vector<int> spiralForm(node* root){
     }
     return ans;
 }
+bool check_parent(node* root,int a,int b){
+    // Base case: null root
+    if (!root) return false;
+
+    // Check if a and b are direct siblings
+    if ((root->left && root->right) &&
+        ((root->left->data == a && root->right->data == b) ||
+        (root->left->data == b && root->right->data == a))) {
+        return false; // Siblings, not cousins
+    }
+
+    // Recursively check in both left and right subtrees
+    return check_parent(root->left, a, b) || check_parent(root->right, a, b);
+}
+bool isCousion(node* root,int a,int b){
+    queue<node*>q;
+    q.push(root);
+    int level = 0;
+    int alevel = -1;
+    int blevel = -1;
+    while(!q.empty()){
+        int t = q.size();
+        while(t--){
+            node* temp = q.front();
+            q.pop();
+            if(temp->data==a) alevel = level;
+            if(temp->data ==b) blevel = level;
+            
+            if(temp->left){
+                q.push(temp->left);
+            }
+            if(temp->right){
+                q.push(temp->right);
+            }
+        }
+        if(alevel!=blevel) return false;
+        if (alevel != -1 && blevel != -1) break; 
+        level++;
+    }
+    return !check_parent(root,a,b);
+}
 int main(){
     cout<<"\nenter the root node = ";
     node* root = createBinaryTree();
     printbt_level(root);
     cout<<endl;
     // cout<<"\n height of bt = "<<height_of_bt(root);
-    vector<int>ans = spiralForm(root);
-    for(int i=0;i<ans.size();i++){
-        cout<<ans[i]<<" ";
-    }
+    // vector<int>ans = spiralForm(root);
+    // for(int i=0;i<ans.size();i++){
+    //     cout<<ans[i]<<" ";
+    // }
+    if(isCousion(root,4,6)) cout<<"\nyes it is cousion.";
+    else cout<<"\n no it is not.";
 }
