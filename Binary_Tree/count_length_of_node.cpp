@@ -142,6 +142,7 @@ void convertIntoMirrorImage(node* root){
     convertIntoMirrorImage(root->left);
     convertIntoMirrorImage(root->right);
 }
+
 int main(){
     cout<<"\nenter the first root node = ";
     node* root1 = create_binary_tree();
