@@ -139,6 +139,180 @@ bool isCousion(node* root,int a,int b){
     }
     return !check_parent(root,a,b);
 }
+
+//! left view of binary tree
+vector<int> leftViewOfBt(node* root){
+    queue<node*>q;
+    q.push(root);
+    vector<int>ans;
+    while(!q.empty()){
+        int t = q.size();
+        vector<int>v;
+        while(t--){
+            node* temp = q.front();
+            q.pop();
+            v.push_back(temp->data);
+            if(temp->left){
+                q.push(temp->left);
+            }
+            if(temp->right){
+                q.push(temp->right);
+            }
+        }
+        ans.push_back(v[0]);
+    }
+    return ans;
+}
+//! recursive approch
+void Lhelper(node* root,int level,vector<int>&ans){
+
+    if(root==nullptr) return;
+
+    if(level==ans.size()){
+        ans.push_back(root->data);
+    }
+    Lhelper(root->left,level+1,ans);
+    Lhelper(root->right,level+1,ans);
+
+}
+vector<int> leftView(node* root){
+    int level = 0;
+    vector<int>ans;
+    Lhelper(root,level,ans);
+    return ans;
+}
+//! right view of binary tree
+vector<int> rightView(node* root){
+    queue<node*>q;
+    q.push(root);
+    vector<int>ans;
+    while(!q.empty()){
+        int lastEle = -1;
+        int t = q.size();
+        while(t--){
+            node* temp = q.front();
+            lastEle = temp->data;
+            q.pop();
+            if(temp->left) q.push(temp->left);
+            if(temp->right) q.push(temp->right);
+        }
+        ans.push_back(lastEle);
+    }
+    return ans;
+}
+//! right view of bt using recursion
+void Rhelper(node* root,int level,vector<int>&ans){
+
+    if(root==nullptr) return;
+
+    if(level==ans.size()){
+        ans.push_back(root->data);
+    }
+
+    Rhelper(root->right,level+1,ans);
+    Rhelper(root->left,level+1,ans);
+
+}
+vector<int> Right_view(node* root){
+    int level = 0;
+    vector<int>ans;
+    Rhelper(root,level,ans);
+    return ans;
+}
+//! top view of binary tree
+void find(node* root,int pos,int &l,int &r){
+    if(root==nullptr) return;
+    l = min(pos,l);
+    r = max(r,pos);
+    find(root->left,pos-1,l,r);
+    find(root->right,pos+1,l,r);
+}
+vector<int> topView(node* root){
+    int l = 0, r = 0;
+    find(root,0,l,r);
+
+    vector<int>ans(r-l+1);
+    vector<bool>filled((r-l+1),0);
+
+    queue<node*>q;
+    queue<int>ind;
+
+    q.push(root);
+    ind.push(-1*l);
+
+    while(!q.empty()){
+        node* temp = q.front();
+        q.pop();
+        int pos = ind.front();
+        ind.pop();
+
+        if(filled[pos]==0){
+            filled[pos] = 1;
+            ans[pos] = temp->data;
+        }
+        if(temp->left){
+            q.push(temp->left);
+            ind.push(pos-1);
+        }
+        if(temp->right){
+            q.push(temp->right);
+            ind.push(pos+1);
+        }
+    }
+    return ans;
+}
+//! using recursion top view
+void Tview(node* root,int pos,vector<int>&ans,vector<int>&level,int lev){
+    if(root==nullptr) return;
+
+    if(level[pos]>lev){
+        ans[pos] = root->data;
+        level[pos] = lev;
+    }
+    Tview(root->left,pos-1,ans,level,lev+1);
+    Tview(root->right,pos+1,ans,level,lev+1);
+}
+vector<int> topViewOfBt(node* root){
+    int l = 0, r = 0;
+    find(root,0,l,r);
+    vector<int>ans((r-l+1));
+    vector<int>level(r-l+1,INT_MAX);
+    Tview(root,-1*l,ans,level,0);
+    return ans;
+}
+//! bottom view of bt recursive code
+vector<int> BottomView(node* root){
+    int l = 0, r = 0;
+    find(root,0,l,r);
+
+    vector<int>ans(r-l+1);
+    vector<bool>filled((r-l+1),0);
+
+    queue<node*>q;
+    queue<int>ind;
+
+    q.push(root);
+    ind.push(-1*l);
+
+    while(!q.empty()){
+        node* temp = q.front();
+        q.pop();
+        int pos = ind.front();
+        ind.pop();
+
+        ans[pos] = temp->data;
+
+        if(temp->left){
+            q.push(temp->left);
+            ind.push(pos-1);
+        }
+        if(temp->right){
+            q.push(temp->right);
+            ind.push(pos+1);
+        }
+    }
+    return ans;
+}
 int main(){
     cout<<"\nenter the root node = ";
     node* root = createBinaryTree();
@@ -149,6 +323,10 @@ int main(){
     // for(int i=0;i<ans.size();i++){
     //     cout<<ans[i]<<" ";
     // }
-    if(isCousion(root,4,6)) cout<<"\nyes it is cousion.";
-    else cout<<"\n no it is not.";
+    // if(isCousion(root,4,6)) cout<<"\nyes it is cousion.";
+    // else cout<<"\n no it is not.";
+    vector<int>ans = BottomView( root);
+    for(int i=0;i<ans.size();i++){
+        cout<<ans[i]<<" ";
+    }
 }
