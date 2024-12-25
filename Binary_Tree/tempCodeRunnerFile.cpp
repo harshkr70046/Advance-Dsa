@@ -1,4 +1,4 @@
-
-
-    // Recursively check in both left and right subtrees
-    return check_parent(root->left, a, b) || check_p
+    vector<int> ans = inorder_itterator(root);
+    for(int i=0;i<ans.size();i++){
+        cout<<ans[i]<<" ";
+    }
