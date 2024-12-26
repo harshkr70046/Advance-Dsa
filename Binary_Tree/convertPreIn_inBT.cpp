@@ -46,6 +46,19 @@ node* Tree(vector<int>&in,vector<int>&pre,int start,int end,int ind){
 node* create_bt(vector<int>&in,vector<int>&pre,int n){
     return Tree(in,pre,0,n-1,0);
 }
+node* Tree(vector<int>&in,vector<int>&post,int start,int end,int ind){
+    if(start>end) return nullptr;
+
+    node* root = new node(post[ind]);
+    int pos = find(in,post[ind],start,end);
+
+    root -> right = Tree(in,post,pos+1,end,ind-1);
+    root ->left = Tree(in,post,start,pos-1,ind-(end-pos)-1);
+    return root;   
+}
+node* create_bt_post(vector<int>&in,vector<int>&post,int n){
+    return Tree(in,post,0,n-1,n-1);
+}
 void print_inorder(node* root){
     if(root==nullptr) return;
 
