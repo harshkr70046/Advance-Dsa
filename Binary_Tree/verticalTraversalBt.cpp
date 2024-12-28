@@ -116,11 +116,38 @@ vector<int> verticalTraversal(node* root){
     }
     return ans;
 }
+void findR(node* root,int pos,int &l){
+    if(root==nullptr) return;
+    l = max(pos,l);
+    findR(root->left,pos+1,l);
+    findR(root->right,pos,l);
+}
+void helper(node* root,int pos,vector<vector<int>>&arr){
+    if(root==nullptr) return;
+    arr[pos].push_back(root->data);
+    helper(root->left,pos+1,arr);
+    helper(root->right,pos,arr);
+}
+vector<int>diagonalTraversal(node* root){
+    int l = 0;
+    findR(root,0,l);
+
+    vector<vector<int>>arr(l+1);
+    helper(root,0,arr);
+
+    vector<int>ans;
+    for(int i=0;i<arr.size();i++){
+        for(int j = 0;j<arr[i].size();j++){
+            ans.push_back(arr[i][j]);
+        }
+    }
+    return ans;
+}
 int main(){
     node* root = create_bt();
     cout<<endl;
     print_bt(root);
-    vector<int>ans = verticalTraversal(root);
+    vector<int>ans = diagonalTraversal(root);
     for(int i=0;i<ans.size();i++){
         cout<<ans[i]<<" ";
     }
