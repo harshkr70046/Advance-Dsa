@@ -143,11 +143,53 @@ vector<int>diagonalTraversal(node* root){
     }
     return ans;
 }
+void LeftBoundry(node* root,vector<int>&ans){
+    if(root==nullptr || (!root->left && !root->right)) return;
+
+    ans.push_back(root->data);
+    if(root->left) LeftBoundry(root->left,ans);
+    else LeftBoundry(root->right,ans);
+}
+
+void Leaf(node* root,vector<int>&ans){
+    if(root==nullptr) return;
+
+    if(!root->left && !root->right){
+        ans.push_back(root->data);
+        return;
+    }
+    Leaf(root->left,ans);
+    Leaf(root->right,ans);
+}
+
+void RightBoundry(node* root,vector<int>&ans){
+    if(!root || (!root->left && !root->right)) return;
+    if(root->right){
+        RightBoundry(root->right,ans);
+    }
+    else{
+        RightBoundry(root->left,ans);
+    }
+    ans.push_back(root->data);
+}
+vector<int> boundry(node* root){
+    vector<int>ans;
+    ans.push_back(root->data);
+    LeftBoundry(root->left,ans);
+
+    if(root->left || root->right)
+    Leaf(root,ans);
+
+    RightBoundry(root->right,ans);
+    return ans;
+}
+
 int main(){
     node* root = create_bt();
     cout<<endl;
     print_bt(root);
-    vector<int>ans = diagonalTraversal(root);
+    cout<<endl;
+    vector<int>ans = boundry(root);
     for(int i=0;i<ans.size();i++){
         cout<<ans[i]<<" ";
     }
