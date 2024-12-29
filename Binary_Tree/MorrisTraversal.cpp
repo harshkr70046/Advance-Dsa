@@ -104,8 +104,6 @@ void flatenIntoLl(node* root){
                 curr = curr->right;
             }
             // left subtree not traversal
-
-            
                 curr->right = root->right;
                 root->right = root->left;
                 root->left = nullptr;
@@ -113,6 +111,46 @@ void flatenIntoLl(node* root){
 
         }
     }
+}
+int Burn(node* root,int &time,int target){
+    if(!root) return 0;
+    if(root->data==target) return -1;
+
+    int left = Burn(root->left,time,target);
+    int right = Burn(root->right,time,target);
+
+    if(left<0){
+        time = max(time,abs(left)+right);
+        return left-1;
+    }
+    if(right<0){
+        time = max(time,left+abs(right));
+        return right-1;
+    }
+    return 1+max(left,right);
+}
+void find(node* root,int target,node*& BurnNode){
+    if(!root) return;
+    if(root->data==target){
+        BurnNode = root;
+        return;
+    }
+    find(root->left,target,BurnNode);
+    find(root->right,target,BurnNode);
+}
+int Height(node* root){
+    if(!root) return 0;
+
+    return 1+max(Height(root->left),Height(root->right));
+}
+int minTime(node* root,int target){
+    int time = 0;
+    Burn(root,time,target);
+    //! hight of target
+    node* BurnNode = nullptr;
+    find(root,target,BurnNode);
+    int high = Height(BurnNode)-1;
+    return max(time,high);
 }
 int main(){
     cout<<"\nenter the root node = ";
