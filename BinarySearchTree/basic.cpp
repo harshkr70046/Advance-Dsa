@@ -12,7 +12,7 @@ class node{
         right = nullptr;
     }
 };
-void create_Bt(){
+node* create_Bt(){
     int x;
     cout<<"\nenetr the root node = ";
     cin>>x;
@@ -20,11 +20,99 @@ void create_Bt(){
     node* root = new node(x);
     q.push(root);
     while(!q.empty()){
+        node* temp = q.front();
+        q.pop();
         int first;
-        cout<<"\nenter the ";
+        cout<<"\nenter the left child of "<<temp->data<< " = ";
+        cin>>first;
+        if(first!=-1){
+            node* newNode = new node(first);
+            q.push(newNode);
+            temp->left = newNode;
+        }
+        int second;
+        cout<<"\nenter the right child of "<<temp->data<<" = ";
+        cin>>second;
+        if(second!=-1){
+            node* newNode = new node(second);
+            q.push(newNode);
+            temp->right = newNode;
+        }
     }
-
+    return root;
+}
+void print_level(node* root){
+    queue<node*>q;
+    q.push(root);
+    while(!q.empty()){
+        node* temp = q.front();
+        q.pop();
+        cout<<temp->data<<" ";
+        if(temp->left){
+            q.push(temp->left);
+        }
+        if(temp->right){
+            q.push(temp->right);
+        }
+    }
+}
+void input_array(vector<int>&arr,int n){
+    for(int i=0;i<n;i++){
+        int num;
+        cout<<"\nenter the element of the array = ";
+        cin>>num;
+        arr.push_back(num);
+    }
+}
+node* insert(node* root,int target){
+    if(!root) {
+        node* temp = new node(target);
+        return temp;
+    }
+    if(target<root->data){
+        root->left = insert(root->left,target);
+    }
+    else{
+        root->right = insert(root->right,target);
+    }
+    return root;
+}
+node* createBinarySearchTree(vector<int>&arr,int n){
+    node* root = nullptr;
+    for(int i=0;i<n;i++){
+        root = insert(root,arr[i]);
+    }
+    return root;
+}
+void inorder(node* root){
+    if(!root) return;
+    inorder(root->left);
+    cout<<root->data<<" ";
+    inorder(root->right);
+}
+bool BST(node* root,int target){
+    if(root==nullptr) return false;
+    if(root->data==target) return true;
+    if(target<root->data){
+        return BST(root->left,target);
+    }
+    else{
+        return BST(root->right,target);
+    }
+   
 }
 int main(){
-
+    // node* root = create_Bt();
+    // print_level(root);
+    int n;
+    cout<<"\nenter the size of the array  = ";
+    cin>>n;
+    vector<int>arr;
+    input_array(arr,n);
+    node* root = createBinarySearchTree(arr,n);
+    inorder(root);
+    if(BST(root,14)){
+        cout<<"\nYes it is present";
+    }
+    else cout<<"\nNo it is not present.";
 }
