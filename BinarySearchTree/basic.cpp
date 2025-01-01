@@ -101,18 +101,72 @@ bool BST(node* root,int target){
     }
    
 }
-int main(){
-    // node* root = create_Bt();
-    // print_level(root);
-    int n;
-    cout<<"\nenter the size of the array  = ";
-    cin>>n;
-    vector<int>arr;
-    input_array(arr,n);
-    node* root = createBinarySearchTree(arr,n);
-    inorder(root);
-    if(BST(root,14)){
-        cout<<"\nYes it is present";
+node* delete_node(node* root,int target){
+    if(!root) return nullptr;
+    if(root->data>target){
+        root->left = delete_node(root->left,target);
+        return root;
     }
-    else cout<<"\nNo it is not present.";
+    else if(root->data<target){
+        root->right = delete_node(root->right,target);
+        return root;
+    }
+    else{
+        if(root->left==nullptr && root->right==nullptr){
+            delete root;
+            return nullptr;
+        }
+        else if(root->right==nullptr){
+            node* temp = root->left;
+            delete root;
+            return temp;
+        }
+        else if(root->left==nullptr){
+            node* temp = root->right;
+            delete root;
+            return temp;
+        }
+        else{
+            // find the greatest element from left
+            node* child = root->left;
+            node* parent = root;
+            while(child->right){
+                parent = child;
+                child = child->right;
+            }
+            if(root!=parent){
+                parent->right = child->left;
+                child->left = root->left;
+                child->right = root->right;
+                delete root;
+                return child;
+            }
+            else{
+                child->right = root->right;
+                delete root;
+                return child;
+            }
+        }
+    }
+    
+}
+int main(){
+    node* root = create_Bt();
+    print_level(root);
+    cout<<endl;
+    // int n;
+    // cout<<"\nenter the size of the array  = ";
+    // cin>>n;
+    // vector<int>arr;
+    // input_array(arr,n);
+    // node* root = createBinarySearchTree(arr,n);
+    // inorder(root);
+    // if(BST(root,14)){
+    //     cout<<"\nYes it is present";
+    // }
+    // else cout<<"\nNo it is not present.";
+    node* uroot = delete_node(root,5);
+    print_level(uroot);
+
+    
 }
