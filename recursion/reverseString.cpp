@@ -82,8 +82,6 @@ int partition(vector<int>&arr,int low,int high){
         }
     }
     swap(arr[pi],arr[high]);
-    
-    
     return pi;
 }
 void quickSort(vector<int>&arr,int low,int high){
